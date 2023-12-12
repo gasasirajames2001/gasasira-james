@@ -1,0 +1,107 @@
+NAME: GASASIRA JAMES
+RegNo:222012473
+
+ASSIGNMENT
+
+1. Write a Shell Scripts that takes three numbers on the command line and does
+the following
+       - Checks that the number of command line arguments is correct (3). If not
+write an error message in a file called error.txt and exit
+       - If the number of command line arguments is correct write the numbers in
+a file called numbers, in ascending order.
+
+Solution
+#!/bin/bash
+# Check if the number of arguments is not equal to 3
+if [ $# -ne 3 ]; then
+echo &quot;Error: The script requires exactly 3 arguments.&quot; &gt; error.txt
+exit 1
+fi
+# If the number of arguments is correct, sort the numbers in ascending order and write them to a
+file
+echo -e &quot;$1\n$2\n$3&quot; | sort -n &gt; numbers.txt
+2. Write A shell script that takes a directory as a command line arguments and writes
+the number of files and number of subfolders in a file called accounts.txt
+
+SOLUTION
+
+#!/bin/bash
+# Check if the number of arguments is not equal to 1
+if [ $# -ne 1 ]; then
+
+echo &quot;Error: The script requires exactly 1 argument.&quot; &gt; error.txt
+exit 1
+fi
+# If the number of arguments is correct, count the number of files and subdirectories
+num_files=$(find &quot;$1&quot; -type f | wc -l)
+num_dirs=$(find &quot;$1&quot; -type d | wc -l)
+# Write the counts to accounts.txt
+echo &quot;Number of files: $num_files&quot; &gt; accounts.txt
+echo &quot;Number of subdirectories: $num_dirs&quot; &gt;&gt; accounts.txt
+
+3. Write A Shell Script that takes a simple arithmetic expression involving integers
+only and evaluates the value of the expression.
+For example if the input is  5 + 7 it should display 5  + 7 =12
+
+SOLUTION
+#!/bin/bash
+# Check if the number of arguments is not equal to 1
+if [ $# -ne 1 ]; then
+echo &quot;Error: The script requires exactly 1 argument.&quot; &gt; error.txt
+exit 1
+fi
+# If the number of arguments is correct, evaluate the arithmetic expression
+result=$(echo &quot;$1&quot; | bc)
+# Display the result
+echo &quot;$1 = $result&quot;
+
+4. Write a Sell script that takes a positive integer from the command line and displays
+its factorial. If the number entered is negative, display an error on the standard output.
+
+SOLUTION
+
+#!/bin/bash
+# Check if the number of arguments is not equal to 1
+if [ $# -ne 1 ]; then
+echo &quot;Error: The script requires exactly 1 argument.&quot;
+exit 1
+fi
+# Check if the argument is not a positive integer
+if ! [[ $1 =~ ^[0-9]+$ ]]; then
+echo &quot;Error: The argument must be a positive integer.&quot;
+exit 1
+fi
+# Calculate the factorial
+factorial=1
+for (( i=1; i&lt;=$1; i++ ))
+do
+factorial=$((factorial * i))
+done
+# Display the factorial
+echo &quot;The factorial of $1 is $factorial.&quot;
+5.Write a shell script that takes two folders from the command lines and deletes from
+directory 1 all the files that are also in directory 2. Check for the correct number of
+arguments, and display an appropriate message if the number of arguments is
+incorrect or if any of the arguments is not a folder.
+
+SOLUTION
+#!/bin/bash
+
+# Check if the number of arguments is not equal to 2
+if [ $# -ne 2 ]; then
+echo &quot;Error: The script requires exactly 2 arguments.&quot;
+exit 1
+
+fi
+# Check if the arguments are not directories
+if [ ! -d &quot;$1&quot; ] || [ ! -d &quot;$2&quot; ]; then
+echo &quot;Error: Both arguments must be directories.&quot;
+exit 1
+fi
+# Delete from directory 1 all the files that are also in directory 2
+for file in &quot;$1&quot;/*; do
+if [ -f &quot;$file&quot; ] &amp;&amp; [ -f &quot;$2/$(basename &quot;$file&quot;)&quot; ]; then
+rm &quot;$file&quot;
+fi
+done
+echo &quot;Operation completed successfully.&quot;
